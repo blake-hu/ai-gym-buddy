@@ -6,34 +6,11 @@ import mediapipe as mp
 import numpy as np
 import pandas as pd
 import glob
+from constants import exercises
+
 mp_drawing = mp.solutions.drawing_utils
 mp_drawing_styles = mp.solutions.drawing_styles
 mp_pose = mp.solutions.pose
-
-exercises = {
-  0: 'barbell_biceps_curl',
-  1: 'bench_press',
-  2: 'chest_fly_machine',
-  3: 'deadlift',
-  4: 'decline_bench_press',
-  5: 'hammer_curl',
-  6: 'hip_thrust',
-  7: 'incline_bench_press',
-  8: 'lat_pulldown',
-  9: 'lateral_raises',
-  10: 'leg_extension',
-  11: 'leg_raises',
-  12: 'plank',
-  13: 'pull_up',
-  14: 'romanian_deadlift',
-  15: 'russian_twist',
-  16: 'shoulder_press',
-  17: 'squat',
-  18: 't_bar_row',
-  19: 'squat',
-  20: 'tricep_dips',
-  21: 'tricep_pushdown',
-}
 
 data_cols = []
 row_num = 0
