@@ -3,7 +3,7 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split
-import tensorflow.keras as keras
+import tensorflow as tf
 print('Done')
 
 print('Reading data... ', end='')
@@ -19,19 +19,19 @@ print('Done')
 # 132 input nodes * 4 = 528 hidden nodes
 
 print('Compiling model... ', end='')
-model = keras.Sequential([
-    keras.layers.Dense(128, activation='relu'),
-    keras.layers.Dense(128, activation='relu'),
-    keras.layers.Dense(128, activation='relu'),
-    keras.layers.Dense(22)
+model = tf.keras.Sequential([
+    tf.keras.layers.Dense(128, activation='relu'),
+    tf.keras.layers.Dense(128, activation='relu'),
+    tf.keras.layers.Dense(128, activation='relu'),
+    tf.keras.layers.Dense(22)
 ])
 
 model.compile(optimizer='adam',
-              loss=keras.losses.SparseCategoricalCrossentropy(from_logits=True),
+              loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True),
               metrics=['accuracy'])
 print('Done')
 
-model.fit(X_train, y_train, epochs=20)
+model.fit(tf.convert_to_tensor(X_train), tf.convert_to_tensor(y_train), epochs=20)
 
 print('\n')
 test_loss, test_accuracy = model.evaluate(X_test, y_test, verbose=2)
