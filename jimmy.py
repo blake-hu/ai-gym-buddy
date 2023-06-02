@@ -8,7 +8,6 @@ mp_drawing_styles = mp.solutions.drawing_styles
 mp_pose = mp.solutions.pose
 
 model = tf.keras.models.load_model('model')
-exercise = ''
 
 # For webcam input:
 cap = cv2.VideoCapture(0)
@@ -39,22 +38,26 @@ with mp_pose.Pose(
     # Flip the image horizontally for a selfie-view display.
     image = cv2.flip(image, 1)
 
+    # Tensorflow integration for predicting exercise
 
+    # Read landmarks into numpy array
     if not results.pose_landmarks:
         continue
-    
     landmarks =  np.zeros(shape=(1, 132)).astype('float32')
     for i, landmark in enumerate(results.pose_landmarks.landmark):
         landmarks[0][i * 4 + 0] = landmark.x
         landmarks[0][i * 4 + 1] = landmark.y
         landmarks[0][i * 4 + 2] = landmark.z
         landmarks[0][i * 4 + 3] = landmark.visibility
-        
+
+    print(landmarks)
+    
+    # Predict exercise using landmarks fed into neural network
     prediction_array = model.predict(tf.convert_to_tensor(landmarks))
     exercise_id = np.argmax(prediction_array)
     exercise = exercises[exercise_id]
 
-
+    # Render exercise text on frame
     image = cv2.putText(image, exercise, (30, 80), cv2.FONT_HERSHEY_SIMPLEX,
             2.5, (240, 240, 240), 4, cv2.LINE_AA)
     cv2.imshow('MediaPipe Pose', image)
